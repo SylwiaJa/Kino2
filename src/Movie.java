@@ -2,14 +2,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 
-public class Seans {
+public class Movie {
     private  String tytul;
     private LocalDate dzien;
     private LocalTime godzina;
     private  Integer ograniczeniaWiekowe;
     private HashMap<Character, HashMap<Integer,Boolean>> liczbaMiejsc;
 
-    public Seans(String tytul, LocalDate dzien, LocalTime godzina, Integer ograniczeniaWiekowe, HashMap<Character, HashMap<Integer, Boolean>> liczbaMiejsc) {
+    public Movie(String tytul, LocalDate dzien, LocalTime godzina, Integer ograniczeniaWiekowe, HashMap<Character, HashMap<Integer, Boolean>> liczbaMiejsc) {
         this.tytul = tytul;
         this.dzien = dzien;
         this.godzina = godzina;

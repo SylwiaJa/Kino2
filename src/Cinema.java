@@ -1,21 +1,11 @@
-import java.io.*;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
-public class Kino {
+public class Cinema {
     Scanner sc = new Scanner(System.in);
-    File filename = new File("dane.txt");
-    FileWriter f = new FileWriter(filename, true);
-    BufferedWriter out = new BufferedWriter(f);
-    FileInputStream g = new FileInputStream(filename);
-    DataInputStream in = new DataInputStream(g);
-    BufferedReader r = new BufferedReader(new InputStreamReader(in));
-    public Kino() throws IOException {
-    }
-
-    void  menu() throws IOException {
+    ArrayList<Movie> movies = new ArrayList<>();
+    void  menu()  {
         int input=0;
         do {
             System.out.println("Witamy w naszsym kinie");
@@ -27,7 +17,6 @@ public class Kino {
             sc.nextLine();
             switch (input){
                 case 0-> {
-                    out.close();
                     return;
                 }
                 case 1->{displayMove();}
@@ -47,7 +36,7 @@ public class Kino {
         }
         return miejsca;
     }
-    private void addMoveMenu() throws IOException {
+    private void addMoveMenu()  {
         String tytul;
         String data;
         String godzina;
@@ -62,33 +51,16 @@ public class Kino {
         System.out.println("Ograniczenie wiekowe:");
         ograniczenieWiekowe = sc.nextInt();
         sc.nextLine();
-        Seans seans = new Seans(tytul, LocalDate.parse(data), LocalTime.parse(godzina), ograniczenieWiekowe, liczbaMiejsc());
+        Movie movie = new Movie(tytul, LocalDate.parse(data), LocalTime.parse(godzina), ograniczenieWiekowe, liczbaMiejsc());
+        movies.add(movie);
         System.out.println("Dodano film");
-
-
-        out.write(seans.toString());
-        out.newLine();
-
 
     }
 
 
 
 
-    private void displayMove() throws IOException {
-        String strLine;
-int i=1;
-        while ((strLine = r.readLine()) != null) {
-            String[] split = strLine.split(";");
-
-            System.out.println(i);
-            System.out.println("Tytuł: "+split[0]);
-            System.out.println("Data: "+split[1]);
-            System.out.println("Godzina: "+split[2]);
-            System.out.println("Ograniczenie wiekowe: "+split[3]);
-            System.out.println();
-    i++;
-        }
+    private void displayMove() {
     }
     private void  error(){
 

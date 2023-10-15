@@ -1,20 +1,20 @@
 import java.io.Serializable;
 import java.util.Collection;
 
-public class Klient implements Serializable {
+public class Client implements Serializable {
     private  String nazwisko;
     private  String imie;
     private  String email;
     private String telefon;
-    private Seans seans;
+    private Movie movie;
     private Collection<String> miejsca;
 
-    public Klient(String nazwisko, String imie, String email, String telefon, Seans seans, Collection<String> miejsca) {
+    public Client(String nazwisko, String imie, String email, String telefon, Movie movie, Collection<String> miejsca) {
         this.nazwisko = nazwisko;
         this.imie = imie;
         this.email = email;
         this.telefon = telefon;
-        this.seans = seans;
+        this.movie = movie;
         this.miejsca = miejsca;
     }
 
@@ -50,12 +50,12 @@ public class Klient implements Serializable {
         this.telefon = telefon;
     }
 
-    public Seans getSeans() {
-        return seans;
+    public Movie getSeans() {
+        return movie;
     }
 
-    public void setSeans(Seans seans) {
-        this.seans = seans;
+    public void setSeans(Movie movie) {
+        this.movie = movie;
     }
 
     public Collection<String> getMiejsca() {
