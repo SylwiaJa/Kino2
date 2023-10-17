@@ -40,7 +40,7 @@ public class Cinema {
     private HashMap<Character, HashMap<Integer, Boolean>> liczbaMiejsc(){
         HashMap<Character, HashMap<Integer, Boolean>> miejsca = new HashMap<>();
         HashMap<Integer,Boolean> rzad = new HashMap<>();
-        for (int i=1; i<=10; i++){
+        for (int i=0; i<10; i++){
             rzad.put(i,true);
         }
         for (int j=0; j<5; j++) {
@@ -79,6 +79,15 @@ public class Cinema {
             System.out.println(i);
             System.out.println( movie.toDisplay());
         }
+      //  System.out.println("wybierz flim który chcesz zarezerwować:");
+       // int chose=sc.nextInt();
+       // sc.nextLine();
+      // movies.get(chose-1).displayCinemaRoom();
+      // char row=sc.nextLine().charAt(0);
+     //  int seat= sc.nextInt();
+     //  sc.nextLine();
+     //  movies.get(chose-1).reservation(row,seat);
+
     }
     private void  error(){
 

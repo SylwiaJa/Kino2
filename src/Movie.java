@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Movie implements Serializable {
     private  String tytul;
@@ -74,4 +75,29 @@ public class Movie implements Serializable {
                         "Godzina: " + godzina +'\n'+
                         "Ograniczenia wiekowe: " + ograniczeniaWiekowe +'\n';
     }
+    public void displayCinemaRoom(){
+        System.out.println("Tytuł: "+tytul+"   Data: "+dzien+"   Godzina: "+godzina+"   Wiek: "+ograniczeniaWiekowe);
+        System.out.println("  0 1 2 3 4 5 6 7 8 9");
+        for (Map.Entry<Character,HashMap<Integer,Boolean>> row:liczbaMiejsc.entrySet()) {
+            char keyRow=row.getKey();
+            System.out.print(keyRow);
+            HashMap<Integer,Boolean> seats=row.getValue();
+            for (Map.Entry<Integer,Boolean> seat:seats.entrySet()) {
+                int keySeat= seat.getKey();
+                boolean valueSeat=seat.getValue();
+                if (valueSeat)
+                    System.out.print(" *");
+                else
+                    System.out.print(" X");
+            }
+            System.out.println();
+        }
+
+    }
+  //  public void reservation(char row, int seat) {
+   //     HashMap<Integer, Boolean> rowMap = new HashMap<>(liczbaMiejsc.get(row)); // Tworzenie kopii rowMap
+    //    rowMap.put(seat, false);
+   //     liczbaMiejsc.put(row, rowMap);
+   // }
+
 }
