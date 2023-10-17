@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -5,7 +7,16 @@ import java.util.*;
 public class Cinema {
     Scanner sc = new Scanner(System.in);
     ArrayList<Movie> movies = new ArrayList<>();
-    void  menu()  {
+
+    public Cinema() throws IOException, ClassNotFoundException {
+        try {
+            movies = SerializableFileManager.readFromFile();
+        }catch (FileNotFoundException e){
+            System.out.println("nowa baza");
+        }
+    }
+
+    void  menu() throws IOException {
         int input=0;
         do {
             System.out.println("Witamy w naszsym kinie");
@@ -17,6 +28,7 @@ public class Cinema {
             sc.nextLine();
             switch (input){
                 case 0-> {
+                 SerializableFileManager.writeToFile(movies);
                     return;
                 }
                 case 1->{displayMove();}
@@ -61,6 +73,12 @@ public class Cinema {
 
 
     private void displayMove() {
+        int i =0;
+        for (Movie movie:movies) {
+            ++i;
+            System.out.println(i);
+            System.out.println( movie.toDisplay());
+        }
     }
     private void  error(){
 

@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.Collection;
 
-public class Client implements Serializable {
+public class Client {
     private  String nazwisko;
     private  String imie;
     private  String email;
