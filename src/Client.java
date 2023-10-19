@@ -1,37 +1,46 @@
-import java.util.Collection;
 import java.util.Map;
 
 public class Client {
-    private  String nazwisko;
-    private  String imie;
+    private  String lastName;
+    private  String name;
     private  String email;
-    private String telefon;
+    private String phone;
     private Movie movie;
-    private Map<Character, Integer> miejsca;
+    private Map<Character, Integer> clientSeats;
 
-    public Client(String nazwisko, String imie, String email, String telefon, Movie movie, Map<Character, Integer> miejsca) {
-        this.nazwisko = nazwisko;
-        this.imie = imie;
+    public Client(String lastName, String name, String email, String phone, Movie movie, Map<Character, Integer> clientSeats) {
+        this.lastName = lastName;
+        this.name = name;
         this.email = email;
-        this.telefon = telefon;
+        this.phone = phone;
         this.movie = movie;
-        this.miejsca = miejsca;
+        this.clientSeats = clientSeats;
     }
 
-    public String getNazwisko() {
-        return nazwisko;
+    @Override
+    public String toString() {
+        String seats="";
+        for (Map.Entry<Character, Integer> clientSeat: clientSeats.entrySet()) {
+            seats = seats + (clientSeat.getKey() + "/" + clientSeat.getValue() + " ");
+        }
+        return "Nazwisko i Imię: " + lastName+ "  "+name+" Email: "+ email+" Telefon: "+phone+"  -  Film:  Tytuł: "+movie.getTitle()+" Data: "+
+        movie.getDay()+" Godzina: "+movie.getHour()+" Ograniczenie wiekowe: "+movie.getAgeRestriction()+" Zarezerwowane miejsca(Rząd/Miejsce): "+seats;
     }
 
-    public void setNazwisko(String nazwisko) {
-        this.nazwisko = nazwisko;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getImie() {
-        return imie;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setImie(String imie) {
-        this.imie = imie;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -42,12 +51,12 @@ public class Client {
         this.email = email;
     }
 
-    public String getTelefon() {
-        return telefon;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Movie getSeans() {

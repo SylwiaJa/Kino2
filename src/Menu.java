@@ -1,4 +1,7 @@
+import org.w3c.dom.html.HTMLTableCaptionElement;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,11 +15,17 @@ import java.util.Scanner;
 public class Menu {
     Scanner sc = new Scanner(System.in);
     ArrayList<Movie> movies;
+
     ArrayList<Client> clients = new ArrayList<>();
-    HashMap<Character, Integer> clientSeats = new HashMap<>();
+
 
     public Menu() throws IOException, ClassNotFoundException {
-       movies = SerializableFileManager.readFromFile();
+        try {
+            movies = SerializableFileManager.readFromFile();
+        }catch (FileNotFoundException e){
+             movies = new ArrayList<>();
+            System.out.println("Stworzono nową baze");
+        }
     }
 
     private File fileName = new File("clientsCinema.txt");
@@ -37,6 +46,13 @@ public class Menu {
             sc.nextLine();
             switch (input) {
                 case 0 -> {
+                    clients.forEach(client -> {
+                        try {
+                            FileHandler.addToFile(client,fileName);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                     SerializableFileManager.writeToFile(movies);
                     return;
                 }
@@ -94,6 +110,7 @@ public class Menu {
         }
     }
     private void createClient(Movie movie){
+        HashMap<Character, Integer> clientSeats = new HashMap<>();
         System.out.println("Nazwisko: ");
         String lastName = sc.nextLine();
         System.out.println("Imię: ");
@@ -103,11 +120,11 @@ public class Menu {
         System.out.println("Telefon: ");
         String phone = sc.nextLine();
         Movie chosenMovie = new Movie(movie.getTitle(), movie.getDay(), movie.getHour(), movie.getAgeRestriction());
-        choseSeats(movie);
+        choseSeats(movie,clientSeats);
         Client client = new Client(lastName, name, mail, phone, chosenMovie, clientSeats);
         clients.add(client);
     }
-    private void choseSeats(Movie movie){
+    private void choseSeats(Movie movie, HashMap<Character, Integer> clientSeats) {
         boolean flag = false;
         do {
             System.out.println();
