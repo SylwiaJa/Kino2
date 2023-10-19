@@ -1,14 +1,15 @@
-import java.util.Map;
+import java.util.List;
+
 
 public class Client {
-    private  String lastName;
-    private  String name;
-    private  String email;
-    private String phone;
-    private Movie movie;
-    private Map<Character, Integer> clientSeats;
+    private final String lastName;
+    private final String name;
+    private final String email;
+    private final String phone;
+    private final Movie movie;
+    private final List<String> clientSeats;
 
-    public Client(String lastName, String name, String email, String phone, Movie movie, Map<Character, Integer> clientSeats) {
+    public Client(String lastName, String name, String email, String phone, Movie movie, List<String> clientSeats) {
         this.lastName = lastName;
         this.name = name;
         this.email = email;
@@ -19,53 +20,11 @@ public class Client {
 
     @Override
     public String toString() {
-        String seats="";
-        for (Map.Entry<Character, Integer> clientSeat: clientSeats.entrySet()) {
-            seats = seats + (clientSeat.getKey() + "/" + clientSeat.getValue() + " ");
+        String seats = "";
+        for (String value : clientSeats) {
+            seats += value + " ";
         }
-        return "Nazwisko i Imię: " + lastName+ "  "+name+" Email: "+ email+" Telefon: "+phone+"  -  Film:  Tytuł: "+movie.getTitle()+" Data: "+
-        movie.getDay()+" Godzina: "+movie.getHour()+" Ograniczenie wiekowe: "+movie.getAgeRestriction()+" Zarezerwowane miejsca(Rząd/Miejsce): "+seats;
+        return "Nazwisko i Imię: " + lastName + "  " + name + ", Email: " + email + ", Telefon: " + phone + ";Film:  Tytuł: " + movie.getTitle() + ", Data: " +
+                movie.getDay() + ", Godzina: " + movie.getHour() + ", Ograniczenie wiekowe: " + movie.getAgeRestriction() + ";Zarezerwowane miejsca(Rząd/Miejsce): " + seats;
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Movie getSeans() {
-        return movie;
-    }
-
-    public void setSeans(Movie movie) {
-        this.movie = movie;
-    }
-
-
 }

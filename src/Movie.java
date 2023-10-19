@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Movie implements Serializable {
-    private String title;
-    private LocalDate day;
-    private LocalTime hour;
-    private Integer ageRestriction;
+    private final String title;
+    private final LocalDate day;
+    private final LocalTime hour;
+    private final Integer ageRestriction;
     private HashMap<Character, HashMap<Integer, Boolean>> numberOfSeats;
 
     public Movie(String title, LocalDate day, LocalTime hour, Integer ageRestriction) {
@@ -40,7 +40,6 @@ public class Movie implements Serializable {
             System.out.print(keyRow);
             HashMap<Integer, Boolean> seats = row.getValue();
             for (Map.Entry<Integer, Boolean> seat : seats.entrySet()) {
-                int keySeat = seat.getKey();
                 boolean valueSeat = seat.getValue();
                 if (valueSeat)
                     System.out.print(" *");

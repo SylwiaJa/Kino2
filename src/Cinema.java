@@ -1,6 +1,6 @@
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
-import java.util.*;
+
 
 public class Cinema {
 
@@ -10,7 +10,7 @@ public class Cinema {
     }
 
 
-    public void getMenu() throws IOException, ClassNotFoundException {
+    public void getMenu() throws IOException {
         menu.mainMenu();
     }
 }

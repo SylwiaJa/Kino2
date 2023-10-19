@@ -1,16 +1,13 @@
-import org.w3c.dom.html.HTMLTableCaptionElement;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
@@ -28,7 +25,7 @@ public class Menu {
         }
     }
 
-    private File fileName = new File("clientsCinema.txt");
+    private final File fileName = new File("clientsCinema.txt");
 
     public void mainMenu() throws IOException {
         int input = 9;
@@ -37,6 +34,7 @@ public class Menu {
             System.out.println("Wybierz opcje;");
             System.out.println("1 - Wyświetl dostepne filmy");
             System.out.println("2 - Dodaj film");
+            System.out.println("3 - Wyświetl rezerwacje");
             System.out.println("0 - Koniec");
             try {
                 input = sc.nextInt();
@@ -46,20 +44,21 @@ public class Menu {
             sc.nextLine();
             switch (input) {
                 case 0 -> {
-                    clients.forEach(client -> {
-                        try {
-                            FileHandler.addToFile(client,fileName);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
                     SerializableFileManager.writeToFile(movies);
                     return;
                 }
                 case 1 -> displayMovie();
                 case 2 -> addMovie();
+                case 3 -> displayReservations();
+
             }
         } while (true);
+    }
+
+    private void displayReservations() {
+        FileHandler.readFromFile(fileName);
+
+
     }
 
     private void addMovie()  {
@@ -81,7 +80,6 @@ public class Menu {
             sc.nextLine();
             Movie movie = new Movie(title, LocalDate.parse(date), LocalTime.parse(hour), ageLimit, new CinemaHall().numberOfSeats());
             movies.add(movie);
-            //  FileHandler.addToFile(movie, fileName);
             System.out.println("Dodano film");
         } catch (InputMismatchException | DateTimeParseException e) {
             System.out.println("Niepoprawne dane");
@@ -110,7 +108,7 @@ public class Menu {
         }
     }
     private void createClient(Movie movie){
-        HashMap<Character, Integer> clientSeats = new HashMap<>();
+        List<String> clientSeats = new ArrayList<>();
         System.out.println("Nazwisko: ");
         String lastName = sc.nextLine();
         System.out.println("Imię: ");
@@ -122,9 +120,14 @@ public class Menu {
         Movie chosenMovie = new Movie(movie.getTitle(), movie.getDay(), movie.getHour(), movie.getAgeRestriction());
         choseSeats(movie,clientSeats);
         Client client = new Client(lastName, name, mail, phone, chosenMovie, clientSeats);
-        clients.add(client);
+       try {
+           FileHandler.addToFile(client, fileName);
+       }catch (IOException e) {
+
+       }
+       clients.add(client);
     }
-    private void choseSeats(Movie movie, HashMap<Character, Integer> clientSeats) {
+    private void choseSeats(Movie movie, List<String> clientSeats) {
         boolean flag = false;
         do {
             System.out.println();
@@ -143,10 +146,10 @@ public class Menu {
                     System.out.println("Niepoprawne dane!");
                 }
                 if(flag)
-                    clientSeats.put(row,seat);
+                    clientSeats.add(row+"/"+seat);
             System.out.println("0 - koniec; 1 - zarezerwuj  miejsce");
             try {
-                flag = !(sc.nextInt()!=0);
+                flag = sc.nextInt() == 0;
                 sc.nextLine();
             }catch (InputMismatchException e){
                 System.out.println("Błędne dane!");
