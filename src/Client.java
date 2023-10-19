@@ -1,4 +1,5 @@
 import java.util.Collection;
+import java.util.Map;
 
 public class Client {
     private  String nazwisko;
@@ -6,9 +7,9 @@ public class Client {
     private  String email;
     private String telefon;
     private Movie movie;
-    private Collection<String> miejsca;
+    private Map<Character, Integer> miejsca;
 
-    public Client(String nazwisko, String imie, String email, String telefon, Movie movie, Collection<String> miejsca) {
+    public Client(String nazwisko, String imie, String email, String telefon, Movie movie, Map<Character, Integer> miejsca) {
         this.nazwisko = nazwisko;
         this.imie = imie;
         this.email = email;
@@ -57,11 +58,5 @@ public class Client {
         this.movie = movie;
     }
 
-    public Collection<String> getMiejsca() {
-        return miejsca;
-    }
 
-    public void setMiejsca(Collection<String> miejsca) {
-        this.miejsca = miejsca;
-    }
 }

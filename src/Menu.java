@@ -1,16 +1,25 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
-    ArrayList<Movie> movies = new ArrayList<>();
-    private File fileName = new File("movie.txt");
+    ArrayList<Movie> movies;
+    ArrayList<Client> clients = new ArrayList<>();
+    HashMap<Character, Integer> clientSeats = new HashMap<>();
+
+    public Menu() throws IOException, ClassNotFoundException {
+       movies = SerializableFileManager.readFromFile();
+    }
+
+    private File fileName = new File("clientsCinema.txt");
 
     public void mainMenu() throws IOException {
         int input = 9;
@@ -32,12 +41,12 @@ public class Menu {
                     return;
                 }
                 case 1 -> displayMovie();
-                case 2 -> addMovieMenu();
+                case 2 -> addMovie();
             }
         } while (true);
     }
 
-    private void addMovieMenu() throws IOException {
+    private void addMovie()  {
         String title;
         String date;
         String hour;
@@ -55,26 +64,76 @@ public class Menu {
             ageLimit = sc.nextInt();
             sc.nextLine();
             Movie movie = new Movie(title, LocalDate.parse(date), LocalTime.parse(hour), ageLimit, new CinemaHall().numberOfSeats());
-            FileHandler.addToFile(movie, fileName);
+            movies.add(movie);
+            //  FileHandler.addToFile(movie, fileName);
             System.out.println("Dodano film");
         } catch (InputMismatchException | DateTimeParseException e) {
             System.out.println("Niepoprawne dane");
         }
     }
 
-    private void displayMovie() throws IOException {
-        FileHandler.readFromFile(fileName);
+    private void displayMovie() {
+        for(int i=0; i<movies.size();i++){
+            System.out.print((i+1)+". ");
+            System.out.println(movies.get(i).toString());
+        }
         selectMovie();
     }
 
     private void selectMovie() {
-//        System.out.println("wybierz flim który chcesz zarezerwować:");
-//        int chose = sc.nextInt();
-//        sc.nextLine();
-//        movies.get(chose - 1).displayCinemaRoom();
-//        char row = sc.nextLine().charAt(0);
-//        int seat = sc.nextInt();
-//        sc.nextLine();
-//        movies.get(chose - 1).reservation(row, seat);
+        System.out.println("Wbierz flim który chcesz zarezerwować lub 0 - rezygnacja: ");
+        try {
+            int yourChose = sc.nextInt();
+            sc.nextLine();
+            if(yourChose==0)
+                return;
+            Movie yourMovie = movies.get(yourChose-1);
+            createClient(yourMovie);
+        }catch (InputMismatchException | IndexOutOfBoundsException e){
+            System.out.println("Niepoprawne dane!");
+        }
+    }
+    private void createClient(Movie movie){
+        System.out.println("Nazwisko: ");
+        String lastName = sc.nextLine();
+        System.out.println("Imię: ");
+        String name = sc.nextLine();
+        System.out.println("E-mail: ");
+        String mail = sc.nextLine();
+        System.out.println("Telefon: ");
+        String phone = sc.nextLine();
+        Movie chosenMovie = new Movie(movie.getTitle(), movie.getDay(), movie.getHour(), movie.getAgeRestriction());
+        choseSeats(movie);
+        Client client = new Client(lastName, name, mail, phone, chosenMovie, clientSeats);
+        clients.add(client);
+    }
+    private void choseSeats(Movie movie){
+        boolean flag = false;
+        do {
+            System.out.println();
+            System.out.println("Widok sali kinowej");
+            movie.displayCinemaRoom();
+            char row;
+            int seat=0;
+                System.out.println("Wybierz rząd: ");
+                row = sc.nextLine().charAt(0);
+                System.out.println("Wybierz miejsce: ");
+                try {
+                    seat = sc.nextInt();
+                    sc.nextLine();
+                    flag = movie.reservation(row, seat);
+                } catch (InputMismatchException | NullPointerException e) {
+                    System.out.println("Niepoprawne dane!");
+                }
+                if(flag)
+                    clientSeats.put(row,seat);
+            System.out.println("0 - koniec; 1 - zarezerwuj  miejsce");
+            try {
+                flag = !(sc.nextInt()!=0);
+                sc.nextLine();
+            }catch (InputMismatchException e){
+                System.out.println("Błędne dane!");
+            }
+        }while(!flag);
     }
 }
